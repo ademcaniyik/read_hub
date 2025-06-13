@@ -1,0 +1,40 @@
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.cache
+*.tmp
+
+# Uploaded files
+categories/*
+!categories/.gitkeep
+uploads/*
+!uploads/.gitkeep
+metadata/*
+!metadata/.gitkeep
+
+# Vendor directories
+vendor/
+node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
