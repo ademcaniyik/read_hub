@@ -22,12 +22,14 @@ $currentPage = $progress['page'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reading <?php echo htmlspecialchars($file); ?> - ReadHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">    <style>
+    <link href="assets/css/style.css" rel="stylesheet">
+    <style>
         #pdf-container {
             width: 100%;
             height: calc(100vh - 160px);
@@ -35,13 +37,15 @@ $currentPage = $progress['page'];
             background: #f8f9fa;
             position: relative;
         }
+
         #pdf-viewer {
             max-width: 100%;
             background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: block;
             margin: 0 auto;
         }
+
         .toolbar {
             position: sticky;
             top: 0;
@@ -51,61 +55,43 @@ $currentPage = $progress['page'];
             border: 1px solid #dee2e6;
             border-bottom: none;
         }
+
         @media (max-width: 768px) {
             .toolbar .btn {
                 padding: 0.375rem 0.5rem;
                 font-size: 0.875rem;
             }
+
             .page-info {
                 font-size: 0.875rem;
             }
+
             #pdf-container {
                 height: calc(100vh - 140px);
             }
         }
+
         .loading-indicator {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: none;
         }
     </style>
 </head>
+
 <body>
     <?php include 'includes/navbar.php'; ?>
 
     <div class="container-fluid mt-4">
         <div class="row">
-            <div class="col-12">                <div class="toolbar">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <div class="d-flex align-items-center gap-2">
-                            <button id="prev" class="btn btn-secondary">
-                                <i class="bi bi-chevron-left"></i>
-                                <span class="d-none d-sm-inline">Previous</span>
-                            </button>
-                            <button id="next" class="btn btn-secondary">
-                                <span class="d-none d-sm-inline">Next</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-                            <span class="mx-2 page-info">
-                                Page: <span id="page_num"></span> / <span id="page_count"></span>
-                            </span>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <button id="zoomOut" class="btn btn-secondary">
-                                <i class="bi bi-zoom-out"></i>
-                            </button>
-                            <button id="zoomIn" class="btn btn-secondary">
-                                <i class="bi bi-zoom-in"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-12">
+
                 <div id="pdf-container">
                     <canvas id="pdf-viewer"></canvas>
                 </div>
@@ -116,13 +102,39 @@ $currentPage = $progress['page'];
                 </div>
             </div>
         </div>
-    </div>    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+        <div class="toolbar">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <button id="prev" class="btn btn-secondary">
+                        <i class="bi bi-chevron-left"></i>
+                        <span class="d-none d-sm-inline">Previous</span>
+                    </button>
+                    <button id="next" class="btn btn-secondary">
+                        <span class="d-none d-sm-inline">Next</span>
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                    <span class="mx-2 page-info">
+                        Page: <span id="page_num"></span> / <span id="page_count"></span>
+                    </span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button id="zoomOut" class="btn btn-secondary">
+                        <i class="bi bi-zoom-out"></i>
+                    </button>
+                    <button id="zoomIn" class="btn btn-secondary">
+                        <i class="bi bi-zoom-in"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.min.js"></script>
     <script>
         // PDF.js initialization
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
-        
+
         // Enable caching
         const cMapUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/cmaps/';
         const cMapPacked = true;
@@ -138,7 +150,9 @@ $currentPage = $progress['page'];
         function renderPage(num) {
             pageRendering = true;
             pdfDoc.getPage(num).then(function(page) {
-                let viewport = page.getViewport({scale: scale});
+                let viewport = page.getViewport({
+                    scale: scale
+                });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
@@ -201,12 +215,13 @@ $currentPage = $progress['page'];
         function onZoomOut() {
             scale /= 1.2;
             queueRenderPage(pageNum);
-        }        const loadingIndicator = document.querySelector('.loading-indicator');
-        
+        }
+        const loadingIndicator = document.querySelector('.loading-indicator');
+
         function showLoading() {
             loadingIndicator.style.display = 'block';
         }
-        
+
         function hideLoading() {
             loadingIndicator.style.display = 'none';
         }
@@ -220,10 +235,10 @@ $currentPage = $progress['page'];
         }
 
         // Initialize scale
-        scale = getInitialScale();        // Get PDF URL through pdf.php handler
-        const pdfUrl = window.location.origin + 
-            '/read_hub/pdf.php?category=' + 
-            encodeURIComponent('<?php echo $category; ?>') + '&file=' + 
+        scale = getInitialScale(); // Get PDF URL through pdf.php handler
+        const pdfUrl = window.location.origin +
+            '/read_hub/pdf.php?category=' +
+            encodeURIComponent('<?php echo $category; ?>') + '&file=' +
             encodeURIComponent('<?php echo $file; ?>');
 
         console.log('Loading PDF from:', pdfUrl); // Debug log
@@ -241,7 +256,8 @@ $currentPage = $progress['page'];
             renderPage(pageNum);
             hideLoading();
         }).catch(function(error) {
-            console.error('Error loading PDF:', error);            hideLoading();
+            console.error('Error loading PDF:', error);
+            hideLoading();
             console.error('Detailed error:', error);
             document.querySelector('.container-fluid').innerHTML += `
                 <div class="alert alert-danger mt-3">
@@ -264,4 +280,5 @@ $currentPage = $progress['page'];
         document.getElementById('zoomOut').addEventListener('click', onZoomOut);
     </script>
 </body>
+
 </html>
