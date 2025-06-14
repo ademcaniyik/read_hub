@@ -105,6 +105,14 @@ $currentPage = $progress['page'];
         <div class="toolbar">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div class="d-flex align-items-center gap-2">
+                    <button id="zoomOut" class="btn btn-secondary">
+                        <i class="bi bi-zoom-out"></i>
+                    </button>
+                    <button id="zoomIn" class="btn btn-secondary">
+                        <i class="bi bi-zoom-in"></i>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-2">
                     <button id="prev" class="btn btn-secondary">
                         <i class="bi bi-chevron-left"></i>
                         <span class="d-none d-sm-inline">Previous</span>
@@ -116,14 +124,6 @@ $currentPage = $progress['page'];
                     <span class="mx-2 page-info">
                         Page: <span id="page_num"></span> / <span id="page_count"></span>
                     </span>
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                    <button id="zoomOut" class="btn btn-secondary">
-                        <i class="bi bi-zoom-out"></i>
-                    </button>
-                    <button id="zoomIn" class="btn btn-secondary">
-                        <i class="bi bi-zoom-in"></i>
-                    </button>
                 </div>
             </div>
         </div>
