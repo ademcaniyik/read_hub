@@ -117,13 +117,13 @@ $currentPage = $progress['page'];
                         <i class="bi bi-chevron-left"></i>
                         <span class="d-none d-sm-inline">Previous</span>
                     </button>
+                    <span class="mx-2 page-info">
+                        Page: <span id="page_num"></span> / <span id="page_count"></span>
+                    </span>
                     <button id="next" class="btn btn-secondary">
                         <span class="d-none d-sm-inline">Next</span>
                         <i class="bi bi-chevron-right"></i>
                     </button>
-                    <span class="mx-2 page-info">
-                        Page: <span id="page_num"></span> / <span id="page_count"></span>
-                    </span>
                 </div>
             </div>
         </div>
