@@ -17,6 +17,8 @@ set_error_handler('customErrorHandler');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://acdisoftware.online/manifest/assets/img/readhublogo.png">
+
 </head>
 
 <body>
