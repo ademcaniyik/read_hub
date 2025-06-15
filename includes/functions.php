@@ -119,3 +119,69 @@ function validatePDFFile($file) {
     
     return true;
 }
+
+/**
+ * Delete a PDF file
+ */
+function deletePDF($category, $fileName) {
+    $filePath = CATEGORIES_PATH . '/' . $category . '/' . $fileName;
+    
+    if (!file_exists($filePath)) {
+        throw new Exception('PDF file not found');
+    }
+    
+    // Delete the file
+    if (!unlink($filePath)) {
+        throw new Exception('Failed to delete PDF file');
+    }
+    
+    // Remove progress data
+    $metadataFile = METADATA_PATH . '/pdf_progress.json';
+    if (file_exists($metadataFile)) {
+        $progress = json_decode(file_get_contents($metadataFile), true) ?? [];
+        unset($progress[$category . '/' . $fileName]);
+        file_put_contents($metadataFile, json_encode($progress, JSON_PRETTY_PRINT));
+    }
+    
+    return true;
+}
+
+/**
+ * Delete a category
+ */
+function deleteCategory($categoryName) {
+    $categoryPath = CATEGORIES_PATH . '/' . sanitizeFileName($categoryName);
+    
+    if (!is_dir($categoryPath)) {
+        throw new Exception('Category not found');
+    }
+    
+    // Get all files in the category
+    $files = glob($categoryPath . '/*.pdf');
+    
+    // Delete each PDF file
+    foreach ($files as $file) {
+        $fileName = basename($file);
+        try {
+            deletePDF($categoryName, $fileName);
+        } catch (Exception $e) {
+            // Log error but continue with other files
+            error_log("Error deleting PDF $fileName: " . $e->getMessage());
+        }
+    }
+    
+    // Delete the category directory
+    if (!rmdir($categoryPath)) {
+        throw new Exception('Failed to delete category directory');
+    }
+    
+    // Update categories metadata
+    $metadataFile = METADATA_PATH . '/categories.json';
+    if (file_exists($metadataFile)) {
+        $categories = json_decode(file_get_contents($metadataFile), true) ?? [];
+        $categories = array_diff($categories, [$categoryName]);
+        file_put_contents($metadataFile, json_encode(array_values($categories), JSON_PRETTY_PRINT));
+    }
+    
+    return true;
+}

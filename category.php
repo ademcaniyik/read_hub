@@ -34,6 +34,29 @@ usort($pdfs, function($a, $b) {
     if (!$b['lastAccessed']) return -1;
     return strtotime($b['lastAccessed']) - strtotime($a['lastAccessed']);
 });
+
+// Handle PDF deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_pdf'])) {
+    try {
+        $fileName = $_POST['delete_pdf'];
+        deletePDF($categoryName, $fileName);
+        $success = "PDF '$fileName' deleted successfully";
+        // Refresh the file list
+        $files = glob($categoryPath . '/*.pdf');
+        foreach ($files as $file) {
+            $fileName = basename($file);
+            $progress = getPDFProgress($categoryName . '/' . $fileName);
+            $pdfs[] = [
+                'name' => $fileName,
+                'lastAccessed' => $progress['lastAccessed'],
+                'currentPage' => $progress['page'],
+                'size' => filesize($file)
+            ];
+        }
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -19,6 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Handle category deletion
+if (isset($_POST['delete_category'])) {
+    try {
+        $categoryName = $_POST['delete_category'];
+        deleteCategory($categoryName);
+        $success = "Category '$categoryName' deleted successfully";
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    }
+}
+
 $categories = getCategories();
 ?>
 <!DOCTYPE html>
@@ -66,18 +77,25 @@ $categories = getCategories();
                         <?php if (empty($categories)): ?>
                             <p class="text-muted">No categories found.</p>
                         <?php else: ?>
-                            <div class="list-group">
-                                <?php foreach ($categories as $category): ?>
-                                    <a href="category.php?name=<?php echo urlencode($category); ?>" 
-                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <?php echo htmlspecialchars($category); ?>
-                                        <span class="badge bg-primary rounded-pill">
-                                            <?php 
-                                            $files = glob(CATEGORIES_PATH . '/' . $category . '/*.pdf');
-                                            echo count($files);
-                                            ?>
-                                        </span>
-                                    </a>
+                            <div class="list-group">                                <?php foreach ($categories as $category): ?>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="category.php?name=<?php echo urlencode($category); ?>" 
+                                           class="text-decoration-none flex-grow-1">
+                                            <?php echo htmlspecialchars($category); ?>
+                                            <span class="badge bg-primary rounded-pill ms-2">
+                                                <?php 
+                                                $files = glob(CATEGORIES_PATH . '/' . $category . '/*.pdf');
+                                                echo count($files);
+                                                ?>
+                                            </span>
+                                        </a>
+                                        <form method="POST" class="d-inline ms-2" onsubmit="return confirm('Are you sure you want to delete this category? All PDFs in this category will be permanently deleted.');">
+                                            <input type="hidden" name="delete_category" value="<?php echo htmlspecialchars($category); ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
