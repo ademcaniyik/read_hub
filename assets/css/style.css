@@ -158,3 +158,76 @@ body {
         padding: 0 0.5rem;
     }
 }
+
+/* PWA Specific Styles */
+@media (display-mode: standalone) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+    }
+}
+
+/* Install Button Styles */
+#installButton {
+    animation: pulse 2s infinite;
+    margin-left: auto;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Offline Indicator */
+.offline-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #dc3545;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    z-index: 9999;
+    display: none;
+}
+
+/* Touch Friendly Buttons */
+@media (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .list-group-item {
+        min-height: 44px;
+        padding: 1rem;
+    }
+    
+    .form-control {
+        min-height: 44px;
+    }
+}
+
+/* Loading Animation for PWA */
+.pwa-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

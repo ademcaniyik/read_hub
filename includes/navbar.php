@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="assets/img/readhublogo.png" alt="ReadHub Logo" class="me-2" style="height: 50px; margin-top: 10px;">
+            <img src="assets/img/readhub-logo.svg" alt="ReadHub Logo" class="me-2" style="height: 40px; width: 40px;">
             ReadHub
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
